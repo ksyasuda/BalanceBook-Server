@@ -1,10 +1,13 @@
-import express = require('express');
-const cors = require('cors');
-const app = express();
-const sqlite3 = require('sqlite3');
-app.use(cors());
+import express = require("express")
+const cors = require("cors")
+const app = express()
+const sqlite3 = require("sqlite3")
+const bodyParser = require("body-parser")
+app.use(cors())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
-let db = new sqlite3.Database('./database.db')
+let db = new sqlite3.Database("./database.db")
 //db.run('CREATE TABLE transactions( \
 //	transactionName VARCHAR(40) NOT NULL,\
 //	transactionAmount INTEGER(9999) NOT NULL,\
@@ -18,8 +21,9 @@ app.listen(port, () => {
 	console.log(`Listening on port ${port}`)
 })
 
-app.get('/', (req: express.Request, res: express.Response) => {
-	let stmt = 'INSERT INTO transactions(transactionName, transactionAmount, transactionType, transactionDate) VALUES(?,?,?,?)'
+app.get("/", (req: express.Request, res: express.Response) => {
+	let stmt =
+		"INSERT INTO transactions(transactionName, transactionAmount, transactionType, transactionDate) VALUES(?,?,?,?)"
 	//db.run(stmt, ['test', 21, '+', 'freud'], (err, res) => {
 	//	if(err) {
 	//		console.log(err.message)
@@ -33,13 +37,45 @@ app.get('/', (req: express.Request, res: express.Response) => {
 	)
 })
 
-app.post('/new-transaction', (req: express.Request, res: express.Response) => {
-	console.log(req)
+app.post("/new-transaction", (req: express.Request, res: express.Response) => {
+	// console.log(req)
+	const stuff = req.body
+	// console.log(stuff)
+	const tname = stuff.transactionName
+	const tamount = stuff.transactionAmount
+	const ttype = stuff.transactionType
+	const tdate = stuff.transactionDate
+	console.log(tname, tamount, ttype, tdate)
+	let stmt =
+		"INSERT INTO transactions(transactionName, transactionAmount, transactionType, transactionDate) VALUES(?,?,?,?)"
+	db.run(stmt, [tname, tamount, ttype, tdate], (err: any) => {
+		if (err) {
+			console.log(err.message)
+			throw new Error("something went wrong in post")
+			return
+		}
+	})
+	res.send("Data Inserted Successfully")
 })
 
-app.get('/all-transactions', (req: express.Request, res: express.Response) => {
-	db.each('SELECT * from transactions;', (err: any, data: any) => {
-		console.log(data)
-		res.send(data)
-	})
+app.get("/all-transactions", (req: express.Request, res: express.Response) => {
+	const allTransactions: Array<Object> = []
+	db.each(
+		"SELECT * from transactions;",
+		(err: any, data: any) => {
+			// console.log(data)
+			if (err) {
+				console.error("Something went wrong fetching all transactions")
+				throw new Error("yeah not right")
+			}
+			allTransactions.push(data)
+		},
+		(err: any, response: any) => {
+			res.json({
+				response: 200,
+				yannick: "is indeed freud",
+				data: allTransactions,
+			})
+		}
+	)
 })
