@@ -28,10 +28,18 @@ app.get('/', (req: express.Request, res: express.Response) => {
 	//	}
 	//	cosole.log(res)
 	//})
+	res.send(
+		'<h1 style="text-align: center; font-weight: bold;">Sudacode BalanceBook API</h1>'
+	)
+})
+
+app.post('/new-transaction', (req: express.Request, res: express.Response) => {
+	console.log(req)
+})
+
+app.get('/all-transactions', (req: express.Request, res: express.Response) => {
 	db.each('SELECT * from transactions;', (err: any, data: any) => {
 		console.log(data)
+		res.send(data)
 	})
-	res.send(
-		'<h1>YANNICK NANDURY</h1>'
-	)
 })

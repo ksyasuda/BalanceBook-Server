@@ -27,9 +27,15 @@ app.get('/', (req, res) => {
     //	}
     //	cosole.log(res)
     //})
+    res.send('<h1 style="text-align: center; font-weight: bold;">Sudacode BalanceBook API</h1>');
+});
+app.post('/new-transaction', (req, res) => {
+    console.log(req);
+});
+app.get('/all-transactions', (req, res) => {
     db.each('SELECT * from transactions;', (err, data) => {
         console.log(data);
+        res.send(data);
     });
-    res.send('<h1>YANNICK NANDURY</h1>');
 });
 //# sourceMappingURL=index.js.map
