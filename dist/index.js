@@ -55,8 +55,8 @@ app.post("/remove-transaction", (req, res) => {
     });
 });
 app.post("/new-transaction", (req, res) => {
-    // console.log(req)
-    const stuff = req.body;
+    console.log(req.body);
+    const stuff = req.body.body;
     // console.log(stuff)
     const tname = stuff.transactionName;
     const tamount = stuff.transactionAmount;

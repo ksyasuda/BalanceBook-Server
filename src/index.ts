@@ -1,4 +1,5 @@
 import express = require("express")
+
 const cors = require("cors")
 const app = express()
 const sqlite3 = require("sqlite3")
@@ -39,7 +40,7 @@ app.get("/", (req: express.Request, res: express.Response) => {
 
 app.post("/remove-transaction", (req: express.Request, res: express.Response) => {
 	console.log(req.body)
-	const { type, transactionId} = req.body
+	const { type, transactionId } = req.body
 	if(type !== 'DELETE') {
 		res.send('<h2>Method not allowed</h2>')
 	}
@@ -61,8 +62,8 @@ app.post("/remove-transaction", (req: express.Request, res: express.Response) =>
 })
 
 app.post("/new-transaction", (req: express.Request, res: express.Response) => {
-	// console.log(req)
-	const stuff = req.body
+	console.log(req.body)
+	const stuff = req.body.body
 	// console.log(stuff)
 	const tname = stuff.transactionName
 	const tamount = stuff.transactionAmount
