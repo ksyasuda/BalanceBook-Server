@@ -9,13 +9,13 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 let db = new sqlite3.Database("./database.db")
-//db.run('CREATE TABLE transactions( \
-//	transactionId INTEGER PRIMARY KEY NOT NULL,\
-//	transactionName VARCHAR(40) NOT NULL,\
-//	transactionAmount INTEGER(9999) NOT NULL,\
-//	transactionType VARCHAR(1) NOT NULL,\
-//	transactionDate VARCHAR(20) NOT NULL\
-//)')
+// db.run('CREATE TABLE transactions( \
+// 	transactionId INTEGER PRIMARY KEY NOT NULL,\
+// 	transactionName VARCHAR(40) NOT NULL,\
+// 	transactionAmount INTEGER(9999) NOT NULL,\
+// 	transactionType VARCHAR(1) NOT NULL,\
+// 	transactionDate VARCHAR(20) NOT NULL\
+// )')
 
 const port = process.env.PORT || 3005
 app.listen(port, () => {
