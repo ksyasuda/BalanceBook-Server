@@ -9,11 +9,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 let db = new sqlite3.Database("./database.db")
 //db.run('CREATE TABLE transactions( \
+//	transactionId INTEGER PRIMARY KEY NOT NULL,\
 //	transactionName VARCHAR(40) NOT NULL,\
 //	transactionAmount INTEGER(9999) NOT NULL,\
 //	transactionType VARCHAR(1) NOT NULL,\
-//	transactionDate VARCHAR(20) NOT NULL,\
-//	PRIMARY KEY(transactionName)\
+//	transactionDate VARCHAR(20) NOT NULL\
 //)')
 
 const port = process.env.PORT || 3005
@@ -35,6 +35,29 @@ app.get("/", (req: express.Request, res: express.Response) => {
 	res.send(
 		'<h1 style="text-align: center; font-weight: bold;">Sudacode BalanceBook API</h1>'
 	)
+})
+
+app.post("/remove-transaction", (req: express.Request, res: express.Response) => {
+	console.log(req.body)
+	const { type, transactionId} = req.body
+	if(type !== 'DELETE') {
+		res.send('<h2>Method not allowed</h2>')
+	}
+	console.log('name', transactionId)
+	const stmt = 'DELETE FROM transactions WHERE transactionId=?';
+	db.run(stmt, transactionId, function(err: any) {
+		if(err) {
+			return console.error(err.message)
+		}
+		let changes: any = this.changes 
+		console.log(`Row(s) deleted ${changes}`);
+		const data = {
+			changes: changes,
+			status: 204,
+			message: 'Successfull Yannick and Nandury'
+		}
+		return res.json(data)
+	})
 })
 
 app.post("/new-transaction", (req: express.Request, res: express.Response) => {
