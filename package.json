@@ -6,6 +6,7 @@
   "author": "Kyle Yasuda",
   "license": "MIT",
   "dependencies": {
+    "@types/cors": "^2.8.8",
     "@types/express": "^4.17.8",
     "@types/node": "^14.11.5",
     "@types/sqlite3": "^3.1.6",
